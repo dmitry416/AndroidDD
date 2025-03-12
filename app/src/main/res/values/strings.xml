@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidDD</string>
+    <string name="welcome_title">Пожалуй, лучший фитнес трекер в ДВФУ</string>
+    <string name="welcome_register">Зарегистрироваться</string>
+    <string name="welcome_subtitle">Созднанный студентами</string>
+    <string name="welcome_login">Уже есть аккаунт?</string>
 </resources>
