@@ -16,4 +16,7 @@
     <string name="register_title">Регистрация</string>
     <string name="register_gender_title">Пол</string>
     <string name="register_terms">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности и обработки персональных данных, а также принимаете пользовательское соглашение</string>
+
+    <string name="login_title">Вход</string>
+    <string name="login_text">Войти</string>
 </resources>
