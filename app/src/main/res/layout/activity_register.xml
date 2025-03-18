@@ -16,8 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:title="@string/register_title"
-        app:navigationIconTint="@color/blue"
-        android:layout_marginTop="20dp"/>
+        app:navigationIconTint="@color/blue"/>
 
     <ScrollView
         android:layout_width="0dp"
