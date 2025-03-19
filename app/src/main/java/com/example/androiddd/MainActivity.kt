@@ -1,36 +1,66 @@
 package com.example.androiddd
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.content.Intent
+import androidx.fragment.app.Fragment
 import com.example.androiddd.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var curFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().apply {
+                val activityFragment = ActivityFragment.newInstance()
+                add(R.id.fragment_container, activityFragment, "ActivityFragment")
+                curFragment = activityFragment
+                commit()
+            }
+        }
+        else {
+            curFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         }
 
-        binding.registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+        binding.bottomNavigation.setOnItemSelectedListener  { item ->
+            when (item.itemId) {
+                R.id.nav_activity -> {
+                    switchPage("ActivityFragment") { ActivityFragment.newInstance() }
+                    true
+                }
 
-        binding.loginButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+                R.id.nav_profile -> {
+                    switchPage("ProfileFragment") { ProfileFragment.newInstance() }
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+    }
+
+    private fun switchPage(tag: String, fragmentCreator: () -> Fragment) {
+        val targetFragment = supportFragmentManager.findFragmentByTag(tag)
+
+        supportFragmentManager.beginTransaction().apply {
+            if (curFragment != null)
+                hide(curFragment!!)
+            if (targetFragment == null) {
+                val newFragment = fragmentCreator()
+                add(R.id.fragment_container, newFragment, tag)
+                curFragment = newFragment
+            }
+            else {
+                show(targetFragment)
+                curFragment = targetFragment
+            }
+            commit()
         }
     }
 }
